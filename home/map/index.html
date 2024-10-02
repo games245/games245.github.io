@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+
+	<title>JOKER</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	
+	
+	<link rel="stylesheet" type="text/css"  href="/template/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css"  href="/template/css/base.css">
+	<link rel="stylesheet" type="text/css"  href="/template/css/normalize.css">
+		
+	
+	<script language="JavaScript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="/template/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/template/js/bootstrap.tab.js"></script>
+
+
+	
+
+	
+	
+	<script type="text/javascript" src="/template/js/validate/jquery.validate.js"></script>
+	<script type="text/javascript" src="/template/js/validate/jquery.validate-rules.js"></script>
+
+	<script type="text/javascript">
+
+	function _setlanguage(lang){
+
+		window.location.href='/language/change/'+lang;
+	}
+
+	function _datecontrol(date){
+
+		var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+		var l = date.length;
+
+
+		if(l==2 || l==5){
+
+			$("#userbirthdate").val(date+"/");
+		}
+
+		if(l>10){
+
+			date = date.slice(0,-1);
+			$("#userbirthdate").val(date);
+		}
+	}
+
+	function _phonecontrol(phone,id){
+
+		var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+		var l = phone.length;
+
+		if(l==1 && phone==0){
+
+			phone = phone.slice(0,-1);
+			$("#"+id).val(phone);
+			
+		}
+		
+		if(l==3 || l==7){
+
+			$("#"+id).val(phone+"-");
+		}
+
+		if(l>12){
+
+			phone = phone.slice(0,-1);
+			$("#"+id).val(phone);
+		}
+	}
+
+	</script>
+	
+
+	
+</head>
+
+
+<body style="background:none !important">
+
+
+	<div class="container grey">
+
+		<div class="row">
+
+			<div class="col-md-12">
+			
+				<h3>Ulaşım Bilgileri</h3>
+				<br/>
+				
+				<p>
+				
+					<img src="/template/images/map.jpg" width="700"/>
+				
+				</p>
+				
+				<p>
+				
+				<strong>Adres:</strong> Akıncı bayırı Sok. No:28 Şişik İş Merkezi Kat:1 Mecidiyeköy / İSTANBUL
+			
+				</p>
+			
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	
+</body>
+
+</html>

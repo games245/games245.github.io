@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+
+	<title>JOKER</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	
+	
+	<link rel="stylesheet" type="text/css"  href="/template/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css"  href="/template/css/base.css">
+	<link rel="stylesheet" type="text/css"  href="/template/css/normalize.css">
+		
+	
+	<script language="JavaScript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="/template/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/template/js/bootstrap.tab.js"></script>
+
+
+	
+
+	
+	
+	<script type="text/javascript" src="/template/js/validate/jquery.validate.js"></script>
+	<script type="text/javascript" src="/template/js/validate/jquery.validate-rules.js"></script>
+
+	<script type="text/javascript">
+
+	function _setlanguage(lang){
+
+		window.location.href='/language/change/'+lang;
+	}
+
+	function _datecontrol(date){
+
+		var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+		var l = date.length;
+
+
+		if(l==2 || l==5){
+
+			$("#userbirthdate").val(date+"/");
+		}
+
+		if(l>10){
+
+			date = date.slice(0,-1);
+			$("#userbirthdate").val(date);
+		}
+	}
+
+	function _phonecontrol(phone,id){
+
+		var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+		var l = phone.length;
+
+		if(l==1 && phone==0){
+
+			phone = phone.slice(0,-1);
+			$("#"+id).val(phone);
+			
+		}
+		
+		if(l==3 || l==7){
+
+			$("#"+id).val(phone+"-");
+		}
+
+		if(l>12){
+
+			phone = phone.slice(0,-1);
+			$("#"+id).val(phone);
+		}
+	}
+
+	</script>
+	
+
+	
+</head>
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+    _city();
+
+});
+
+function _mail(mail){
+
+	$.ajax({
+        url: "/members/mailcontrol",
+        async: false,
+        type:'POST',
+        data: {
+
+        	'mail': mail
+			
+            },
+       
+        success: function(output){
+
+	            if(output==1){
+	                $("#result-mail").html("<span class='glyphicon glyphicon-remove'></span>");
+	                $("#mailcontrol").val("0");
+	
+	            }else if(output==0){
+	                $("#result-mail").html("<span class='glyphicon glyphicon-ok'></span>");
+	                $("#mailcontrol").val("1");
+
+	            }
+            } 
+        });
+   
+}
+
+function _city(){
+
+	$.ajax({
+        url: "/members/city",
+        async: false,
+        type:'POST',
+        data: {},
+       
+        success: function(output){
+                $("#result-city").html(output);
+            } 
+        });
+   
+}
+
+function _town(id){
+
+	$.ajax({
+        url: "/members/town",
+        async: false,
+        type:'POST',
+        data: {
+
+        	'id':id
+            },
+       
+        success: function(output){
+                $("#result-town").html(output);
+                $("#result-district").empty();
+            } 
+        });
+   
+}
+
+function _district(id){
+
+	$.ajax({
+        url: "/members/district",
+        async: false,
+        type:'POST',
+        data: {
+
+        	'id':id
+            },
+       
+        success: function(output){
+                $("#result-district").html(output);
+            } 
+        });
+   
+}
+
+
+</script>
+
+<body>
+
+	
+<!-- 
+<a href="/language/change/tr">TR </a> | 
+<a href="/language/change/en">EN </a>  
+ -->
+
+
+
+
+	<div class="container">
+
+		<div class="row">
+
+			<div class="col-md-12">
+
+				<h4>
+					Yeni Üyelik Kaydı				</h4>
+
+				<form action="/./members/signup" method="post" accept-charset="utf-8" id="signup" class="form-horizontal" role="form">
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Adınız					</label>
+					<div class="col-sm-8">
+						<input type="text" name="username" value="" id="username" placeholder="Adınız" class="form-control input"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Soyadınız					</label>
+					<div class="col-sm-8">
+						<input type="text" name="usersurname" value="" id="usersurname" placeholder="Soyadınız" class="form-control input"  />					</div>
+
+				</div>
+
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Cinsiyet					</label>
+					<div class="col-sm-8">
+						<input type="radio" name="usersex" value="2" checked="checked" id="usersex" style="margin:10px"  />Bayan<input type="radio" name="usersex" value="1" id="usersex" style="margin:10px"  />Erkek					</div>
+
+				</div>
+
+
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">E-Posta Adresiniz					</label>
+					<div class="col-sm-8">
+						<input type="text" name="useremailaddress" value="" id="useremailaddress" placeholder="E-Posta Adresiniz" class="form-control input" onchange="_mail(this.value)"  /><input type="hidden" name="mailcontrol" value="0" id="mailcontrol"  />						
+						<div id="result-mail"></div>
+					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Telefon Numaranız					</label>
+					<div class="col-sm-8">
+						<input type="text" name="phone" value="" id="phone" placeholder="Telefon Numaranız" class="form-control input" onkeyup="_phonecontrol(this.value)"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Parolanız					</label>
+					<div class="col-sm-8">
+						<input type="password" name="userpassword" value="" id="userpassword" placeholder="Parolanız" class="form-control input"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Parolanız Tekrar					</label>
+					<div class="col-sm-8">
+						<input type="password" name="userpasswordre" value="" id="userpasswordre" placeholder="Parolanız Tekrar" class="form-control input"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Doğum Tarihiniz					</label>
+					<div class="col-sm-8">
+						<input type="text" name="userbirthdate" value="" id="userbirthdate" placeholder="gg/aa/yyyy" class="form-control input" onkeyup="_datecontrol(this.value)"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">T.C. Kimlik No					</label>
+					<div class="col-sm-8">
+						<input type="text" name="useridentityno" value="" id="useridentityno" placeholder="T.C. Kimlik No" class="form-control input"  />					</div>
+
+				</div>
+
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">İl					</label>
+					<div class="col-sm-8">
+					
+					<div id="result-city"></div>
+					<div id="result-town"></div>
+					<div id="result-district"></div>
+						
+					</div>
+
+				</div>
+				
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Adres					</label>
+					<div class="col-sm-8">
+						<textarea name="address" cols="40" rows="3" id="address" placeholder="Adres" class="form-control textbox" ></textarea>					</div>
+
+				</div>
+
+
+				<div class="form-group">
+
+					<label class="col-md-4 control-label">Yandaki Kodu Doğrulayınız</label>
+					
+					<div class="col-md-3">
+					
+					<input type="text" name="formcontrol" value="" id="formcontrol" class="form-control input"  />					
+					
+					
+					</div>
+					<div class="col-md-4">
+
+					<input type="hidden" name="chk" value="6638291" id="chk"  />					
+					<img src="/getimg/captcha/3319/97"/>
+
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label"></label>
+					<div class="col-sm-8">
+
+						<input type="submit" name="submit" value="Kaydet" class="btn btn-info" id="mysubmit"  />
+
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<div class="col-sm-12" id="result_post"></div>
+
+				</div>
+
+				</form>
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+
+	
+<!-- 
+
+<div class="container">
+
+	<div class="row footer">
+	
+		<div class="col-md-4">
+		
+		©2014 Tüm Hakları Saklıdır.		</div>
+		
+		<div class="col-md-8"></div>
+	
+	</div>
+
+</div>
+
+ -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48657025-1', 'jokeroyna.com');
+  ga('send', 'pageview');
+
+</script></body>
+
+</html>

@@ -1,0 +1,693 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+
+<head>
+
+	<title>JOKER</title>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	
+	
+	<link rel="stylesheet" type="text/css"  href="/template/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css"  href="/template/css/base.css">
+	<link rel="stylesheet" type="text/css"  href="/template/css/normalize.css">
+		
+	
+	<script language="JavaScript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="/template/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/template/js/bootstrap.tab.js"></script>
+
+
+	
+
+	
+	
+	<script type="text/javascript" src="/template/js/validate/jquery.validate.js"></script>
+	<script type="text/javascript" src="/template/js/validate/jquery.validate-rules.js"></script>
+
+	<script type="text/javascript">
+
+	function _setlanguage(lang){
+
+		window.location.href='/language/change/'+lang;
+	}
+
+	function _datecontrol(date){
+
+		var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+		var l = date.length;
+
+
+		if(l==2 || l==5){
+
+			$("#userbirthdate").val(date+"/");
+		}
+
+		if(l>10){
+
+			date = date.slice(0,-1);
+			$("#userbirthdate").val(date);
+		}
+	}
+
+	function _phonecontrol(phone,id){
+
+		var numberRegex = /^[+-]?\d+(\.\d+)?([eE][+-]?\d+)?$/;
+
+		var l = phone.length;
+
+		if(l==1 && phone==0){
+
+			phone = phone.slice(0,-1);
+			$("#"+id).val(phone);
+			
+		}
+		
+		if(l==3 || l==7){
+
+			$("#"+id).val(phone+"-");
+		}
+
+		if(l>12){
+
+			phone = phone.slice(0,-1);
+			$("#"+id).val(phone);
+		}
+	}
+
+	</script>
+	
+
+	
+</head>
+
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+
+
+	_country('190','live');
+
+
+});
+
+
+function _country(id,form){
+	
+	$.ajax({
+        url: "/members/country",
+        async: false,
+        type:'POST',
+        data: {id:id,form:form},
+        
+        success: function(output){
+                $("#result-"+form+"country").html(output);
+                
+                if(id==190){
+
+                	_city('',form);
+                	$("#result-"+form+"city").show();
+                	$("#result-"+form+"town").show();
+                	
+                }else{
+
+                	$("#result-"+form+"city").hide();
+                	$("#result-"+form+"town").hide();
+                	
+                }
+            } 
+        });
+   
+}
+
+function _city(id,form){
+
+	$.ajax({
+        url: "/members/city",
+        async: false,
+        type:'POST',
+        data: {
+
+			id:id,
+			form:form
+		
+            },
+        
+        success: function(output){
+                $("#result-"+form+"city").html(output);
+            } 
+        });
+   
+}
+
+function _town(id,form){
+
+	$.ajax({
+        url: "/members/town",
+        async: false,
+        type:'POST',
+        data: {
+
+			id:id,
+			form:form
+		
+            },
+        
+        success: function(output){
+                $("#result-"+form+"town").html(output);
+            } 
+        });
+   
+}
+
+
+function _mail(mail){
+
+	$.ajax({
+        url: "/members/mailcontrol",
+        async: false,
+        type:'POST',
+        data: {
+
+        	'mail': mail
+			
+            },
+       
+        success: function(output){
+
+	            if(output==1){
+	                $("#result-mail").html("<span class='glyphicon glyphicon-remove'></span>");
+	                $("#mailcontrol").val("0");
+	
+	            }else if(output==0){
+	                $("#result-mail").html("<span class='glyphicon glyphicon-ok'></span>");
+	                $("#mailcontrol").val("1");
+
+	            }
+            } 
+        });
+   
+}
+
+function _tc(tc){
+
+	$.ajax({
+        url: "/members/tccontrol",
+        async: false,
+        type:'POST',
+        data: {
+
+        	'uidno': tc
+			
+            },
+       
+        success: function(output){
+
+                //alert(output);
+
+	            if(output==0){
+		            
+	                $("#result-tc").html("<span class='glyphicon glyphicon-ok'></span>");
+	                $("#tccontrol").val("1");
+	
+	            }else{
+
+	                $("#result-tc").html("<span class='glyphicon glyphicon-remove'></span>");
+	                $("#tccontrol").val("0");
+	                
+	            }
+            } 
+        });
+   
+}
+
+function __child(c){
+
+	if(c==1){
+
+		$("#child_count").show();
+		
+	}else{
+
+		$("#child_count").hide();
+	}
+	
+}
+
+
+
+</script>
+
+<body style="background:none !important">
+
+
+	<div class="container grey">
+
+		<div class="row">
+
+			<div class="col-md-12">
+
+				<h4>
+					Başvuru Formu					
+				</h4>
+
+				<form action="/./members/apply" method="post" accept-charset="utf-8" id="apply_form" class="form-horizontal" role="form" enctype="multipart/form-data">
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Fotoğraf Ekle					</label>
+					<div class="col-sm-8">
+						<input type="file" name="uphoto" value="" id="uphoto" class="form-control input" title="Fotoğraf Ekle"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">TC Kimlik No					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uidno" value="" id="uidno" placeholder="TC Kimlik No" class="form-control input" onchange="_tc(this.value)"  /><input type="hidden" name="tccontrol" value="0" id="tccontrol"  />						<div id="result-tc"></div>
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Adınız Soyadınız					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uname" value="" id="uname" placeholder="Adınız Soyadınız" class="form-control input"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Yaşınız					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uage" value="" id="uage" placeholder="Yaşınız" class="form-control input"  />					</div>
+
+				</div>
+				
+			
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Yaşadığınız Şehir					</label>
+					<div class="col-sm-8">
+					
+					<div id="result-livecountry"></div>
+					<div id="result-livecity"></div>
+					<div id="result-livetown"></div>
+					
+						
+					</div>
+
+				</div>
+				
+				
+				
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Telefon (Cep)					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uphonemobile" value="" id="uphonemobile" placeholder="Telefon (Cep)" class="form-control input" onkeyup="_phonecontrol(this.value,'uphonemobile')"  />					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Telefon (Ev)					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uphonehome" value="" id="uphonehome" placeholder="Telefon (Ev)" class="form-control input" onkeyup="_phonecontrol(this.value,'uphonehome')"  />					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Telefon (İş)					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uphonework" value="" id="uphonework" placeholder="Telefon (İş)" class="form-control input" onkeyup="_phonecontrol(this.value,'uphonework')"  />					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">E-Posta Adresi					</label>
+					<div class="col-sm-8">
+						<input type="text" name="umailaddress" value="" id="umailaddress" placeholder="E-Posta Adresi" class="form-control input" onchange="_mail(this.value)"  /><input type="hidden" name="mailcontrol" value="0" id="mailcontrol"  />						
+						<div id="result-mail"></div>
+					</div>
+
+				</div>
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Şu An Okuduğunuz Okul ve En Son Mezun Olduğunuz Okul ve Bölüm					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uschool" value="" id="uschool" placeholder="Şu An Okuduğunuz Okul ve En Son Mezun Olduğunuz Okul ve Bölüm" class="form-control input"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Meslek Durumu					</label>
+					<div class="col-sm-8">
+						<input type="text" name="ujob" value="" id="ujob" placeholder="Meslek Durumu" class="form-control input"  />					</div>
+
+				</div>
+
+				
+				
+				<hr/>
+
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Cinsiyetiniz					</label>
+					<div class="col-sm-8">
+						<input type="radio" name="ugender" value="2" checked="checked" id="ugender" style="margin:10px"  />Bayan<input type="radio" name="ugender" value="1" id="ugender" style="margin:10px"  />Erkek					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Boyunuz					</label>
+					<div class="col-sm-8">
+						<select name="ulength" id="ulength" class="form-control input">
+<option value="1.50'den az">1.50'den az</option>
+<option value="1.50-1.60">1.50-1.60</option>
+<option value="1.60-1.70">1.60-1.70</option>
+<option value="1.70-1.80">1.70-1.80</option>
+<option value="1.80-1.90">1.80-1.90</option>
+<option value="1.90'dan fazla">1.90'dan fazla</option>
+</select>					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Kilonuz					</label>
+					<div class="col-sm-8">
+						<select name="uweight" id="uweight" class="form-control input">
+<option value="50'den az">50'den az</option>
+<option value="50-60">50-60</option>
+<option value="60-70">60-70</option>
+<option value="70-80">70-80</option>
+<option value="80-90">80-90</option>
+<option value="90-100">90-100</option>
+<option value="100'den fazla">100'den fazla</option>
+</select>					</div>
+
+				</div>
+
+				
+				
+				<hr/>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Medeni durumunuz nedir?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="umaritalst" value="" id="umaritalst" placeholder="Medeni durumunuz nedir?" class="form-control input"  />					</div>
+
+				</div>				
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Eşinizin mesleği nedir?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uspousejob" value="" id="uspousejob" placeholder="Eşinizin mesleği nedir?" class="form-control input"  />					</div>
+
+				</div>				
+
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Çocuğunuz var mı?					</label>
+					<div class="col-sm-8">
+						<input type="radio" name="uhavechild" value="0" checked="checked" id="uhavechild" style="margin:10px" onchange="__child(this.value)"  />Hayır<input type="radio" name="uhavechild" value="1" id="uhavechild" style="margin:10px" onchange="__child(this.value)"  />Evet					</div>
+
+				</div>
+								
+
+				<div class="form-group" id="child_count" style="display:none;">
+
+					<label class="col-sm-4 control-label">Kaç çocuğunuz var?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uchildcount" value="" id="uchildcount" placeholder="Kaç çocuğunuz var?" class="form-control input"  />					</div>
+
+				</div>	
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Daha önce bir yarışma programına katıldınız mı?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uanycomp" value="" id="uanycomp" placeholder="Daha önce bir yarışma programına katıldınız mı?" class="form-control input"  />					</div>
+
+				</div>	
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Hobileriniz					</label>
+					<div class="col-sm-8">
+						<input type="text" name="uhobbies" value="" id="uhobbies" placeholder="Hobileriniz" class="form-control input"  />					</div>
+
+				</div>	
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">En beğendiğiniz televizyon programları nelerdir?					</label>
+					<div class="col-sm-8">
+						<textarea name="ubesttvprog" cols="40" rows="3" id="ubesttvprog" placeholder="En beğendiğiniz televizyon programları nelerdir?" class="form-control input" ></textarea>					</div>
+
+				</div>	
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">En beğendiğiniz üç kitap					</label>
+					<div class="col-sm-8">
+						<textarea name="ulikebook" cols="40" rows="3" id="ulikebook" placeholder="En beğendiğiniz üç kitap" class="form-control input" ></textarea>					</div>
+
+				</div>	
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">En beğendiğiniz üç film					</label>
+					<div class="col-sm-8">
+						<textarea name="ulikemovie" cols="40" rows="3" id="ulikemovie" placeholder="En beğendiğiniz üç film" class="form-control input" ></textarea>					</div>
+
+				</div>	
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Takip ettiğiniz gazete veya dergiler nelerdir?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="ufollownews" value="" id="ufollownews" placeholder="Takip ettiğiniz gazete veya dergiler nelerdir?" class="form-control input"  />					</div>
+
+				</div>	
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Yazılarını okuduğunuz köşe yazarları kimlerdir?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="ufavcolumnist" value="" id="ufavcolumnist" placeholder="Yazılarını okuduğunuz köşe yazarları kimlerdir?" class="form-control input"  />					</div>
+
+				</div>	
+
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Hangi kategoriden gelecek sorularda daha başarılı olursunuz?					</label>
+					<div class="col-sm-8">
+						<select name="ufavcat" id="ufavcat" class="form-control input">
+<option value="Tarih">Tarih</option>
+<option value="Sinema">Sinema</option>
+<option value="Müzik">Müzik</option>
+<option value="Coğrafya">Coğrafya</option>
+<option value="Spor">Spor</option>
+<option value="Televizyon">Televizyon</option>
+<option value="Genel kültür">Genel kültür</option>
+<option value="Diğer">Diğer</option>
+</select>					</div>
+
+				</div>
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Genel kültürünüzü 10 üzerinden puanlayınız					</label>
+					<div class="col-sm-8">
+						<select name="uculturepoint" id="uculturepoint" class="form-control input">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select>					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Hangi özelliğinize daha çok güvenirsiniz?					</label>
+					<div class="col-sm-8">
+						<select name="utrustfeature" id="utrustfeature" class="form-control input">
+<option value="Genel kültürüme">Genel kültürüme</option>
+<option value="Espirili kişiliğime">Espirili kişiliğime</option>
+<option value="Taklit yeteneğime">Taklit yeteneğime</option>
+<option value="Sesime, güzel şarkı söylerim">Sesime, güzel şarkı söylerim</option>
+<option value="Liderlik özelliğime">Liderlik özelliğime</option>
+</select>					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Hayatta asla yapmam diyeceğiniz bir şey var mıdır?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="utbl42" value="" id="utbl42" placeholder="Hayatta asla yapmam diyeceğiniz bir şey var mıdır?" class="form-control input"  />					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Hayatınızda ki en zevkli/eğlenceli deneyim nedir?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="utbl43" value="" id="utbl43" placeholder="Hayatınızda ki en zevkli/eğlenceli deneyim nedir?" class="form-control input"  />					</div>
+
+				</div>
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Hayatınızda başınıza gelen en talihsiz olay nedir?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="utbl44" value="" id="utbl44" placeholder="Hayatınızda başınıza gelen en talihsiz olay nedir?" class="form-control input"  />					</div>
+
+				</div>
+				
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Büyük ödülü kazanırsanız nasıl bir yatırım yaparsınız?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="utbl46" value="" id="utbl46" placeholder="Büyük ödülü kazanırsanız nasıl bir yatırım yaparsınız?" class="form-control input"  />					</div>
+
+				</div>
+				
+				
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Bu yarışma programında ne kadar para kazanmayı hedefliyorsunuz?					</label>
+					<div class="col-sm-8">
+						<input type="text" name="utbl48" value="" id="utbl48" placeholder="Bu yarışma programında ne kadar para kazanmayı hedefliyorsunuz?" class="form-control input"  />					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Hayatınızda 3 tane jokeriniz olsa ne için kullanırdınız?					</label>
+					<div class="col-sm-8">
+						<textarea name="utbl49" cols="40" rows="3" id="utbl49" placeholder="Hayatınızda 3 tane jokeriniz olsa ne için kullanırdınız?" class="form-control input" ></textarea>					</div>
+
+				</div>
+				
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Bize 1 adet Joker yarışması sorusu yazar mısınız?					</label>
+					<div class="col-sm-8">
+						<textarea name="utbl50" cols="40" rows="5" id="utbl50" placeholder="Bize 1 adet Joker yarışması sorusu yazar mısınız?" class="form-control input" ></textarea>					</div>
+
+				</div>
+							
+				<hr/>
+
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Oyun oynamak için parola belirleyiniz					</label>
+					<div class="col-sm-8">
+						<input type="password" name="upassword" value="" id="upassword" placeholder="" class="form-control input"  />					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Parolanız Tekrar					</label>
+					<div class="col-sm-8">
+						<input type="password" name="upasswordre" value="" id="upasswordre" placeholder="" class="form-control input"  />					</div>
+
+				</div>		
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label">Yandaki Kodu Doğrulayınız</label>
+					
+					<div class="col-sm-8">
+					
+					<input type="text" name="formcontrol" value="" id="formcontrol" class="form-control input"  />					
+					
+					
+					
+
+					</div>
+
+				</div>
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label"></label>
+					
+					<div class="col-sm-8">
+					
+
+					<input type="hidden" name="chk" value="7898231" id="chk"  />					
+					<img src="/getimg/captcha/3949/77"/>
+
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<label class="col-sm-4 control-label"></label>
+					<div class="col-sm-8">
+
+						<input type="submit" name="submit" value="Kaydet" class="btn btn-info" id="mysubmit"  />
+
+					</div>
+
+				</div>
+
+				<div class="form-group">
+
+					<div class="col-sm-12" id="result_post"></div>
+
+				</div>
+
+				</form>
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+</body>
+
+</html>

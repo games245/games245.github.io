@@ -1,0 +1,172 @@
+body {
+	background: #051644;
+	font-family: "Roboto", Arial, sans-serif;
+	line-height: 1.4;
+	height: 100%;
+	text-rendering: optimizeLegibility;
+	padding: 10px 0px;
+	background-color: #071a45 ;
+	background-image: url(../images/gh_site_bg.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    
+}
+
+h2{
+
+	color: #ffffff;
+	font-size: 14pt;
+	margin: 5px;	
+}
+
+h3{
+
+	color: #1995dc;
+	font-size: 14pt;
+	margin: 2px;	
+}
+
+.home{
+
+	margin-top: 100px;
+		
+}
+
+.home-2{
+
+	margin-top: 25px;
+		
+}
+
+.white{
+
+	color: #ffffff;
+	padding: 4px 0 0 4px !important;
+
+}
+
+.vdo-play{
+
+
+	width: 420px;
+	float: left;
+	
+}
+
+.vdo-list{
+
+	width: 300px;
+	float: left;
+	margin-top: 25px;
+
+}
+
+
+ul#vlist{
+
+	list-style: none;
+	padding: 2px;
+	margin: 4px;
+
+}
+
+ul#vlist li{
+
+	position: relative;
+	width: 280px;
+	height: 98px;
+	margin-bottom: 6px;
+	padding: 6px;
+	background: #0530a4;
+
+}
+ul#vlist li a{
+
+	color:#ffffff;
+
+}
+
+ul#vlist li .blanc{
+
+	position: absolute;
+	top:4px;
+	left: 4px;
+	width: 110px;
+	height: 90px;
+	
+}
+
+
+ul#vlist li iframe{
+
+	position: absolute;
+	top:4px;
+	left: 4px;
+
+}
+
+ul#vlist li iframe a{
+
+	display: none;
+
+}
+
+.vdo-txt{
+
+	position: absolute;
+	top: 20px;
+	left: 120px;
+
+}
+.vdo-txt a{
+
+	color: #ffffff;
+
+}
+
+.none-display{
+	display: none;
+}
+
+.clear{
+
+	clear:both;
+
+}
+
+.footer{
+
+	margin-top: 30px;	
+	
+}
+
+.footer p, .footer p a{
+
+	color: #ffffff;
+		
+}
+
+.grey{
+
+	background: #e5e5e5;
+
+}
+
+.input {
+	width: 200px !important;
+}
+.textbox {
+	width: 300px !important;
+}
+
+.error {
+	float: left;
+	color: #ff0000;
+	padding: 4px;
+}
+
+.example{
+	
+	float:left !important;
+	font: italic 9pt "Roboto",Arial, sans-serif;
+}
